@@ -1,0 +1,12 @@
+#!/bin/zsh
+set -euo pipefail
+
+APP_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+ROOT_DIR="${COGNOSOS_PROJECT_DIR:-$(cd "$APP_DIR/.." && pwd)}"
+LAUNCHER="$ROOT_DIR/scripts/start-cognosos.command"
+
+if [[ ! -x "$LAUNCHER" ]]; then
+  chmod +x "$LAUNCHER"
+fi
+
+open -a Terminal "$LAUNCHER"
