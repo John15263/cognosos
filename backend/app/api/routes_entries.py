@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import uuid
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -10,6 +11,7 @@ from backend.app.models.schemas import EntryCreateResponse, RawEntryCreate, RawE
 from backend.app.services.entry_service import get_raw_entry, process_entry
 
 router = APIRouter(prefix="/entries", tags=["entries"])
+logger = logging.getLogger(__name__)
 
 
 @router.post("", response_model=EntryCreateResponse, status_code=status.HTTP_201_CREATED)
@@ -17,7 +19,8 @@ def create_entry(payload: RawEntryCreate, db: Session = Depends(get_db)) -> Entr
     try:
         return process_entry(db, payload)
     except Exception as exc:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(exc)) from exc
+        logger.exception("Failed to process entry")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to process entry") from exc
 
 
 @router.get("/{entry_id}", response_model=RawEntryRead)

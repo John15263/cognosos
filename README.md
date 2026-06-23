@@ -10,6 +10,8 @@ This is an early prototype, not a production SaaS product.
 
 CognosOS is not medical advice, therapy, CBT treatment, diagnosis, or crisis support. It is a personal thinking and writing tool. Remote model calls should be treated as third-party data processing.
 
+The default launcher binds services to `127.0.0.1` for single-user local use. Do not expose the backend to a LAN, reverse proxy, or public internet without adding authentication first.
+
 ## What It Includes
 
 - A Vite/React Breakthrough Canvas frontend.
@@ -190,7 +192,7 @@ Gemini embeddings use the configured `EMBEDDING_DIM`; the current PostgreSQL vec
 
 ## PostgreSQL
 
-The Docker Compose service uses `pgvector/pgvector:pg16` and initializes:
+The Docker Compose service is for local development only. It uses `pgvector/pgvector:pg16`, the default `postgres/postgres` credentials, and initializes:
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS vector;

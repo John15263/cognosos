@@ -20,6 +20,18 @@ def test_post_entries_stores_raw_entry(client):
     assert entry["processing_status"] == "processed"
 
 
+def test_post_entries_does_not_leak_internal_errors(client, monkeypatch):
+    def fail_process_entry(*_args, **_kwargs):
+        raise RuntimeError("database failed with internal_error_marker")
+
+    monkeypatch.setattr("backend.app.api.routes_entries.process_entry", fail_process_entry)
+
+    response = client.post("/entries", json={"content": "private text", "source": "text"})
+
+    assert response.status_code == 500
+    assert response.json()["detail"] == "Failed to process entry"
+
+
 def test_get_cards_returns_empty_list_initially(client):
     response = client.get("/cards")
 
