@@ -571,7 +571,7 @@ export function App() {
 
             <div className="prompt-line">
               <span>Flow:</span>
-              <strong>倒出噪音 → 拉开时间 → 定格判断 → 落地行动 → 交给现实</strong>
+              <strong>Externalize noise → Widen time → Trace judgment → Ground action → Face reality</strong>
             </div>
 
             {state === "failed" ? (
