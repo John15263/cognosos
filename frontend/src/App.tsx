@@ -1,5 +1,4 @@
 import {
-  AlertTriangle,
   ChevronLeft,
   ChevronRight,
   ExternalLink,
@@ -11,6 +10,7 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
+import cognososAvatar from "./assets/cognosos-avatar.png";
 import { api } from "./lib/api";
 import {
   IDLE_POLICIES,
@@ -555,9 +555,7 @@ export function App() {
         <>
           <section className={`launch-hero ${hasOutcome ? "has-outcome" : ""}`} aria-label="Breakthrough Canvas launch">
             <div className="hero-lockup">
-              <div className={`danger-symbol ${state === "failed" ? "failed" : ""}`}>
-                <AlertTriangle size={132} strokeWidth={1.8} />
-              </div>
+              <img className={`dignitas-avatar ${state === "failed" ? "failed" : ""}`} src={cognososAvatar} alt="" />
               <h1 className="launch-title breakthrough-title">
                 <span>{state === "failed" ? "Canvas" : "Breakthrough"}</span>
                 <strong>{state === "failed" ? "Cleared" : "Canvas"}</strong>
