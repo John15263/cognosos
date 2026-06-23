@@ -29,6 +29,12 @@ graph = [
 gemini = [
   "google-genai>=1.0.0"
 ]
+openai = [
+  "openai>=1.40.0"
+]
+anthropic = [
+  "anthropic>=0.40.0"
+]
 
 [build-system]
 requires = ["setuptools>=69", "wheel"]

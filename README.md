@@ -30,10 +30,10 @@ Frontend
 
 Backend
   -> raw entry
-  -> extractor provider: mock or Gemini
+  -> extractor provider: mock, Gemini, OpenAI, or Anthropic
   -> embedding provider: mock, sentence-transformers, or Gemini
   -> retrieval and deterministic trigger rules
-  -> judge provider: mock or Gemini
+  -> judge provider: mock, Gemini, OpenAI, or Anthropic
   -> cards, trigger events, time capsules
   -> Markdown projection
 ```
@@ -54,14 +54,34 @@ Database = internal index, embeddings, processing state, and reminders
 - Markdown files are written to `COGNOSOS_VAULT_PATH`.
 - Local SQLite databases are ignored by git.
 
-Gemini setup lives in your local `.env`:
+`LLM_PROVIDER` selects the extractor/judge backend: `mock` (default), `gemini`, `openai`, or `anthropic`. Remote setup lives in your local `.env`. Examples:
 
 ```env
+# Gemini
 ALLOW_REMOTE_LLM=true
-GEMINI_API_KEY=
 LLM_PROVIDER=gemini
+GEMINI_API_KEY=
 EMBEDDING_PROVIDER=gemini
+
+# OpenAI (hosted)
+ALLOW_REMOTE_LLM=true
+LLM_PROVIDER=openai
+OPENAI_API_KEY=
+OPENAI_LLM_MODEL=gpt-4o-mini
+
+# Anthropic (Claude)
+ALLOW_REMOTE_LLM=true
+LLM_PROVIDER=anthropic
+ANTHROPIC_API_KEY=
+ANTHROPIC_LLM_MODEL=claude-opus-4-8
+
+# OpenAI-compatible local server (Ollama / LM Studio) — fully local, no opt-in needed
+LLM_PROVIDER=openai
+OPENAI_BASE_URL=http://localhost:11434/v1
+OPENAI_LLM_MODEL=llama3.1
 ```
+
+Install the SDK for whichever remote provider you use: `pip install -e '.[openai]'` or `pip install -e '.[anthropic]'` (`.[gemini]` for Gemini).
 
 What can leave your machine:
 
@@ -70,7 +90,8 @@ What can leave your machine:
 | Mock extractor/judge | No | Nothing | Yes |
 | Mock embedding fallback | No | Nothing | Yes, when local embedding is unavailable |
 | Sentence-transformers embedding | No | Nothing | Optional |
-| Gemini extractor/judge | Yes | User writing and derived context needed for extraction or trigger judging | No |
+| OpenAI-compatible local server (`OPENAI_BASE_URL` → localhost) | No | Nothing leaves the machine | Optional |
+| Gemini / OpenAI / Anthropic extractor/judge | Yes | User writing and derived context needed for extraction or trigger judging | No |
 | Gemini embedding | Yes | Card text, module text, or search query text sent for embedding | No |
 
 ## Storage and Backup

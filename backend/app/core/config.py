@@ -22,6 +22,11 @@ class Settings(BaseSettings):
     allow_remote_llm: bool = Field(default=False, alias="ALLOW_REMOTE_LLM")
     gemini_api_key: str | None = Field(default=None, alias="GEMINI_API_KEY")
     gemini_llm_model: str = Field(default="gemini-3.5-flash", alias="GEMINI_LLM_MODEL")
+    openai_api_key: str | None = Field(default=None, alias="OPENAI_API_KEY")
+    openai_llm_model: str = Field(default="gpt-4o-mini", alias="OPENAI_LLM_MODEL")
+    openai_base_url: str | None = Field(default=None, alias="OPENAI_BASE_URL")
+    anthropic_api_key: str | None = Field(default=None, alias="ANTHROPIC_API_KEY")
+    anthropic_llm_model: str = Field(default="claude-opus-4-8", alias="ANTHROPIC_LLM_MODEL")
 
     trigger_high_similarity: float = Field(default=0.78, alias="TRIGGER_HIGH_SIMILARITY")
     trigger_medium_similarity: float = Field(default=0.72, alias="TRIGGER_MEDIUM_SIMILARITY")
